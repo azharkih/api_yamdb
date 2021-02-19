@@ -26,3 +26,7 @@ class ObjectIdViewSet(ProtectObjectIdViewSet,
     retrieve(), update(), destroy().
     """
     pass
+
+
+class ObjectsIdViewSet(ObjectIdViewSet, mixins.ListModelMixin):
+    pass
