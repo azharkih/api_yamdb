@@ -14,17 +14,14 @@ class AskRegistration(models.Model):
     Атрибуты класса
     --------
                                             PK <--
-    email : models.TextField()
-        текст сообщения
+    email : models.EmailField()
+        емейл на который отправлен код подтверждения
     confirmation_code : models.TextField()
         сгенерированный код подтверждения
     pub_date : models.DateTimeField()
         дата и время запроса
-
-    Методы класса
-    --------
-
     """
+
     email = models.EmailField(
         verbose_name='email',
         help_text='Введите email'
@@ -54,7 +51,7 @@ class UserManager(BaseUserManager):
     """
 
     def create_user(self, username, email, password=None):
-        """ Создает и возвращает пользователя с имэйлом, паролем и именем. """
+        """ Создает и возвращает пользователя с емейлом, паролем и именем. """
         if username is None:
             raise TypeError('Users must have a username.')
 
@@ -80,7 +77,37 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """Класс AskRegistration используется для описания модели хранящей
+    временные коды регистрации.
+
+    Родительский класс -- AbstractBaseUser, PermissionsMixin.
+
+    Атрибуты класса
+    --------
+                                            PK <-- Review, Comment
+
+    first_name : models.CharField()
+        имя пользователя
+    last_name : models.CharField()
+        фамилия пользователя
+    username : models.CharField()
+        юзернейм пользователя
+    bio : models.CharField()
+        о пользователе
+    email : models.EmailField()
+        емейл пользователя
+    confirmation_code : models.CharField()
+        сгенерированный код подтверждения
+    created_at : models.DateTimeField()
+        дата и время создания пользователя
+    updated_at : models.DateTimeField()
+        дата и время создания пользователя
+    """
+
     class Role(models.TextChoices):
+        """Класс Role используется для определния допустимых пользовательских
+        ролей."""
+
         USER = 'user', _('Пользователь')
         MODERATOR = 'moderator', _('Модератор')
         ADMIN = 'admin', _('Администратор')

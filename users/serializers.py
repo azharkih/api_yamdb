@@ -1,26 +1,39 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import AccessToken
 
+from api_yamdb import settings
 from .models import AskRegistration, User
 
 
 class AskRegistrationSerializer(serializers.Serializer):
+    """ Класс AskRegistrationSerializer описывает сериализатор данных запроса на
+    регистрацию.
+
+    Родительский класс -- serializers.Serializer.
+    """
+
     email = serializers.EmailField()
 
 
 class StatusSerializer(serializers.Serializer):
+    """ Класс StatusSerializer описывает сериализатор данных статусных ответов.
+
+    Родительский класс -- serializers.Serializer.
+    """
+
     status_info = serializers.CharField()
 
 
 class TokenSerializer(serializers.Serializer):
     """ Класс TokenSerializer описывает сериализатор выдачи токена.
 
-    Родительский класс -- serializers.ModelSerializer.
+    Родительский класс -- serializers.Serializer.
     """
 
     email = serializers.EmailField(write_only=True)
+    length = settings.LENGTH_CONFIRMATION_CODE
     confirmation_code = serializers.CharField(
-        max_length=10, min_length=10, write_only=True)
+        max_length=length, min_length=length, write_only=True)
     token = serializers.CharField(read_only=True)
 
     def validate(self, data):
@@ -41,6 +54,12 @@ class TokenSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """ Класс UserSerializer описывает сериализатор данных запроса на основе
+    модели User.
+
+    Родительский класс -- serializers.ModelSerializer.
+    """
+
     class Meta:
         fields = ('first_name', 'last_name', 'username', 'bio', 'email', 'role')
         model = User

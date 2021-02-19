@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'api',
     'users',
     'corsheaders',
-    'django-filters',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -135,6 +135,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 EMAIL_FROM = 'registration@yamdb.ru'
+
+LENGTH_CONFIRMATION_CODE = 10
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
