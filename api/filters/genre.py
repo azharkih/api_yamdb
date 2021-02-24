@@ -1,11 +1,11 @@
 from django_filters import rest_framework as filters
 
-from ..models.category import Category
+from ..models.genre import Genre
 
 
-class CategoryFilter(filters.FilterSet):
+class GenreFilter(filters.FilterSet):
     name = filters.CharFilter(field_name='name', lookup_expr='icontains')
 
     class Meta:
-        model = Category
+        model = Genre
         fields = ['name']
