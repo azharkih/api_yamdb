@@ -18,3 +18,4 @@ class CategoryViewSet(mixins.CreateModelMixin,
     permission_classes = [IsAdminOrReadOnly, ]
     filter_backends = [DjangoFilterBackend, ]
     filterset_class = CategoryFilter
+    filterset_fields = ['name', ]
