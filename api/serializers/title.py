@@ -1,14 +1,30 @@
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
+from ..models.category import Category
+from ..models.genre import Genre
 from ..models.title import Title
-from ..serializers.genre import GenreSerializer
-from ..serializers.category import CategorySerializer
+from .genre import GenreSerializer
+from .category import CategorySerializer
 
 
 class TitleSerializerGet(serializers.ModelSerializer):
-    genre = GenreSerializer(many=True)
+    genre = GenreSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
-#    rating = serializers.FloatField(read_only=True)
+
+    rating = serializers.FloatField(read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Title
+
+
+class TitleSerializer(serializers.ModelSerializer):
+    genre = serializers.SlugRelatedField(queryset=Genre.objects.all(),
+                                         slug_field='slug',
+                                         many=True)
+    category = serializers.SlugRelatedField(queryset=Category.objects.all(),
+                                            slug_field='slug')
 
     class Meta:
         fields = '__all__'

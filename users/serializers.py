@@ -29,9 +29,9 @@ class TokenSerializer(serializers.Serializer):
 
     Родительский класс -- serializers.Serializer.
     """
+    length = settings.LENGTH_CONFIRMATION_CODE
 
     email = serializers.EmailField(write_only=True)
-    length = settings.LENGTH_CONFIRMATION_CODE
     confirmation_code = serializers.CharField(
         max_length=length, min_length=length, write_only=True)
     token = serializers.CharField(read_only=True)

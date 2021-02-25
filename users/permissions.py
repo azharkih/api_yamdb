@@ -15,7 +15,7 @@ class IsUser(permissions.BasePermission):
     def has_permission(self, request, view):
         """Определить и вернуть право на поступивший запрос."""
         if bool(request.user and request.user.is_authenticated):
-            return request.user.role == User.Role.MODERATOR
+            return request.user.role == User.Role.USER
         else:
             return False
 
