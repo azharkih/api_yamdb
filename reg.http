@@ -1,0 +1,31 @@
+@baseUrl = http://127.0.0.1:8000/api/v1
+
+###
+
+POST {{baseUrl}}/auth/email/
+content-type: application/json
+
+{
+    "email": "gerz13@mail.ru"
+}
+
+###
+
+# @name login
+POST {{baseUrl}}/token/
+content-type: application/json
+
+{
+    "email": "gerz13@mail.ru",
+    "confirmation_code": "Nl0%j(4gzN"
+}
+
+###
+ @token = {{login.response.body.$.access}}
+
+###
+
+GET {{baseUrl}}/titles/1/reviews/
+content-type: application/json
+Authorization: Bearer {{token}}
+
