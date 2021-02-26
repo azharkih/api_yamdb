@@ -97,7 +97,8 @@ def create_reviews(user_client, admin):
         {'id': create_review(client_user, titles[0]["id"], 'qwerty123', 3),
          'author': user.username, 'text': 'qwerty123', 'score': 3})
     result.append(
-        {'id': create_review(client_moderator, titles[0]["id"], 'qwerty321', 4),
+        {'id': create_review(client_moderator, titles[0]["id"], 'qwerty321',
+                             4),
          'author': moderator.username, 'text': 'qwerty321', 'score': 4})
     return result, titles, user, moderator
 

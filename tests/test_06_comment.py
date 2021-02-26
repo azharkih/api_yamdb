@@ -48,7 +48,8 @@ class Test06CommentAPI:
                             'qwerty')
         self.create_comment(client_user, titles[0]["id"], reviews[0]["id"],
                             'qwerty123')
-        self.create_comment(client_moderator, titles[0]["id"], reviews[0]["id"],
+        self.create_comment(client_moderator, titles[0]["id"],
+                            reviews[0]["id"],
                             'qwerty321')
 
         self.create_comment(user_client, titles[0]["id"], reviews[1]["id"],

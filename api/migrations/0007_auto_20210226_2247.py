@@ -19,7 +19,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='name',
-            field=models.CharField(max_length=100, verbose_name='Произведение'),
+            field=models.CharField(max_length=100,
+                                   verbose_name='Произведение'),
         ),
         migrations.AlterField(
             model_name='category',
@@ -66,10 +67,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='review',
             name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='reviews',
-                                    to=settings.AUTH_USER_MODEL,
-                                    verbose_name='Автор отзыва'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='reviews',
+                to=settings.AUTH_USER_MODEL,
+                verbose_name='Автор отзыва'),
         ),
         migrations.AlterField(
             model_name='review',
@@ -108,7 +110,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='title',
             name='name',
-            field=models.CharField(max_length=100, verbose_name='Произведение'),
+            field=models.CharField(max_length=100,
+                                   verbose_name='Произведение'),
         ),
         migrations.AlterField(
             model_name='title',

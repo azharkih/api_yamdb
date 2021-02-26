@@ -83,7 +83,8 @@ class Test05ReviewAPI:
             'на уже оставленный отзыв для объекта возвращается статус 400.'
         )
 
-        response = user_client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/')
+        response = user_client.get(
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/')
         assert response.status_code == 200, \
             'Проверьте, что при GET запросе `/api/v1/titles/{title_id}/reviews/` возвращает статус 200'
         data = response.json()
@@ -264,7 +265,8 @@ class Test05ReviewAPI:
             'Проверьте, что при DELETE запросе `/api/v1/titles/{title_id}/reviews/{review_id}/` '
             'возвращаете статус 204'
         )
-        response = user_client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/')
+        response = user_client.get(
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/')
         test_data = response.json()['results']
         assert len(test_data) == len(reviews) - 1, (
             'Проверьте, что при DELETE запросе `/api/v1/titles/{title_id}/reviews/{review_id}/` удаляете объект'
