@@ -8,7 +8,8 @@ class Test06CommentAPI:
     @pytest.mark.django_db(transaction=True)
     def test_01_comment_not_auth(self, client, user_client, admin):
         reviews, titles, _, _ = create_reviews(user_client, admin)
-        response = client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/')
+        response = client.get(
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/')
         assert response.status_code != 404, (
             'Страница `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'не найдена, проверьте этот адрес в *urls.py*'
@@ -20,7 +21,9 @@ class Test06CommentAPI:
 
     def create_comment(self, client_user, title_id, review_id, text):
         data = {'text': text}
-        response = client_user.post(f'/api/v1/titles/{title_id}/reviews/{review_id}/comments/', data=data)
+        response = client_user.post(
+            f'/api/v1/titles/{title_id}/reviews/{review_id}/comments/',
+            data=data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'с правильными данными возвращает статус 201, api доступен для любого аутентифицированные пользователя'
@@ -34,19 +37,27 @@ class Test06CommentAPI:
         client_moderator = auth_client(moderator)
         data = {}
         response = user_client.post(
-            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/', data=data
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/',
+            data=data
         )
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'с не правильными данными возвращает статус 400'
         )
-        self.create_comment(user_client, titles[0]["id"], reviews[0]["id"], 'qwerty')
-        self.create_comment(client_user, titles[0]["id"], reviews[0]["id"], 'qwerty123')
-        self.create_comment(client_moderator, titles[0]["id"], reviews[0]["id"], 'qwerty321')
+        self.create_comment(user_client, titles[0]["id"], reviews[0]["id"],
+                            'qwerty')
+        self.create_comment(client_user, titles[0]["id"], reviews[0]["id"],
+                            'qwerty123')
+        self.create_comment(client_moderator, titles[0]["id"],
+                            reviews[0]["id"],
+                            'qwerty321')
 
-        self.create_comment(user_client, titles[0]["id"], reviews[1]["id"], 'qwerty432')
-        self.create_comment(client_user, titles[0]["id"], reviews[1]["id"], 'qwerty534')
-        response = self.create_comment(client_moderator, titles[0]["id"], reviews[1]["id"], 'qwerty231')
+        self.create_comment(user_client, titles[0]["id"], reviews[1]["id"],
+                            'qwerty432')
+        self.create_comment(client_user, titles[0]["id"], reviews[1]["id"],
+                            'qwerty534')
+        response = self.create_comment(client_moderator, titles[0]["id"],
+                                       reviews[1]["id"], 'qwerty231')
 
         assert type(response.json().get('id')) == int, (
             'Проверьте, что при POST запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
@@ -54,21 +65,24 @@ class Test06CommentAPI:
         )
 
         data = {'text': 'kjdfg'}
-        response = user_client.post('/api/v1/titles/999/reviews/999/comments/', data=data)
+        response = user_client.post('/api/v1/titles/999/reviews/999/comments/',
+                                    data=data)
         assert response.status_code == 404, (
             'Проверьте, что при POST запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'с не существующим title_id или review_id возвращается статус 404.'
         )
         data = {'text': 'аывв'}
         response = user_client.post(
-            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/', data=data
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/',
+            data=data
         )
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'на отзыв можно оставить несколько комментариев.'
         )
 
-        response = user_client.get(f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/')
+        response = user_client.get(
+            f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/')
         assert response.status_code == 200, (
             'Проверьте, что при GET запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/` '
             'возвращает статус 200'
@@ -129,7 +143,8 @@ class Test06CommentAPI:
 
     @pytest.mark.django_db(transaction=True)
     def test_03_review_detail(self, client, user_client, admin):
-        comments, reviews, titles, user, moderator = create_comments(user_client, admin)
+        comments, reviews, titles, user, moderator = create_comments(
+            user_client, admin)
         pre_url = f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/'
         response = client.get(f'{pre_url}{comments[0]["id"]}/')
         assert response.status_code != 404, (
@@ -155,7 +170,8 @@ class Test06CommentAPI:
         )
 
         data = {'text': 'rewq'}
-        response = user_client.patch(f'{pre_url}{comments[0]["id"]}/', data=data)
+        response = user_client.patch(f'{pre_url}{comments[0]["id"]}/',
+                                     data=data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/` '
             'возвращается статус 200'
@@ -178,14 +194,16 @@ class Test06CommentAPI:
 
         client_user = auth_client(user)
         data = {'text': 'fgf'}
-        response = client_user.patch(f'{pre_url}{comments[2]["id"]}/', data=data)
+        response = client_user.patch(f'{pre_url}{comments[2]["id"]}/',
+                                     data=data)
         assert response.status_code == 403, (
             'Проверьте, что при PATCH запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/` '
             'от обычного пользователя при попытки изменить не свой отзыв возвращается статус 403'
         )
 
         data = {'text': 'jdfk'}
-        response = client_user.patch(f'{pre_url}{comments[1]["id"]}/', data=data)
+        response = client_user.patch(f'{pre_url}{comments[1]["id"]}/',
+                                     data=data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/` '
             'возвращается статус 200'
@@ -225,7 +243,8 @@ class Test06CommentAPI:
 
     @pytest.mark.django_db(transaction=True)
     def test_04_comment_check_permission(self, client, user_client, admin):
-        comments, reviews, titles, user, moderator = create_comments(user_client, admin)
+        comments, reviews, titles, user, moderator = create_comments(
+            user_client, admin)
         pre_url = f'/api/v1/titles/{titles[0]["id"]}/reviews/{reviews[0]["id"]}/comments/'
         data = {'text': 'jdfk'}
         response = client.post(f'{pre_url}', data=data)
@@ -245,4 +264,5 @@ class Test06CommentAPI:
             '`/api/v1/titles/{{title_id}}/reviews/{{review_id}}/comments/{{comment_id}}/` '
             'без токена авторизации возвращается статус 401'
         )
-        self.check_permissions(user, 'обычного пользователя', f'{pre_url}{comments[2]["id"]}/')
+        self.check_permissions(user, 'обычного пользователя',
+                               f'{pre_url}{comments[2]["id"]}/')

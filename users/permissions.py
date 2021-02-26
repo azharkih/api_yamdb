@@ -22,8 +22,8 @@ class IsUser(permissions.BasePermission):
 
 class IsModerator(permissions.BasePermission):
     """
-    Класс IsModerator используется для определения соответствия роли пользователя
-    отправившего запрос как "модератор".
+    Класс IsModerator используется для определения соответствия роли
+    пользователя отправившего запрос как "модератор".
 
     Родительский класс -- permissions.BasePermission.
     Переопределенные методы -- has_permission.
@@ -49,8 +49,8 @@ class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         """Определить и вернуть право на поступивший запрос."""
         if bool(request.user and request.user.is_authenticated):
-            return (request.user.role == User.Role.ADMIN or
-                    request.user.is_superuser)
+            return (request.user.role == User.Role.ADMIN
+                    or request.user.is_superuser)
         else:
             return False
 
@@ -78,5 +78,5 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         if bool(request.user and request.user.is_authenticated):
-            return (request.user.role == User.Role.ADMIN or
-                    request.user.is_superuser)
+            return (request.user.role == User.Role.ADMIN
+                    or request.user.is_superuser)

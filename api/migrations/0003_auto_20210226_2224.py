@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0002_auto_20210226_1734'),
     ]
@@ -33,6 +32,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='pub_date',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления'),
+            field=models.DateTimeField(auto_now_add=True,
+                                       verbose_name='Дата добавления'),
         ),
     ]

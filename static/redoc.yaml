@@ -109,8 +109,8 @@ paths:
         404:
           description: Не найден объект оценки
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
   /titles/{title_id}/reviews/{review_id}/:
     parameters:
       - name: title_id
@@ -173,8 +173,8 @@ paths:
         404:
           description: Не найден объект оценки
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
     delete:
       tags:
         - REVIEWS
@@ -192,8 +192,8 @@ paths:
         404:
           description: Не найден объект оценки
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
 
   /titles/{title_id}/reviews/{review_id}/comments/:
     parameters:
@@ -268,8 +268,8 @@ paths:
         404:
           description: Не найден объект оценки или отзыв
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
 
   /titles/{title_id}/reviews/{review_id}/comments/{comment_id}/:
     parameters:
@@ -339,8 +339,8 @@ paths:
         404:
           description: Не найден объект оценки, отзыв или комментарий
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
     delete:
       tags:
         - COMMENTS
@@ -358,8 +358,8 @@ paths:
         404:
           description: Не найден объект оценки, отзыв или комментарий
       security:
-      - jwt_auth:
-        - write:user,moderator,admin
+        - jwt_auth:
+            - write:user,moderator,admin
 
   /auth/token/:
     post:
@@ -397,7 +397,7 @@ paths:
       tags:
         - AUTH
       description: Отправление confirmation_code на переданный email.
-      parameters: []
+      parameters: [ ]
       requestBody:
         content:
           application/json:
@@ -416,7 +416,7 @@ paths:
                   email:
                     type: string
                 required:
-                - email
+                  - email
           description: ''
 
   /users/:
@@ -428,11 +428,11 @@ paths:
 
         Права доступа: **Администратор**
       parameters:
-      - name: search
-        in: query
-        description: username пользователь для фильтрации, поиск по части username
-        schema:
-          type: string
+        - name: search
+          in: query
+          description: username пользователь для фильтрации, поиск по части username
+          schema:
+            type: string
       responses:
         200:
           description: Список пользователей с пагинацией
@@ -456,9 +456,9 @@ paths:
         401:
           description: Необходим JWT токен
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
     post:
       tags:
         - USERS
@@ -489,9 +489,9 @@ paths:
         403:
           description: Нет прав доступа
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
   /users/{username}/:
     parameters:
       - name: username
@@ -521,9 +521,9 @@ paths:
         404:
           description: Пользователь не найден
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
     patch:
       tags:
         - USERS
@@ -556,9 +556,9 @@ paths:
         404:
           description: Пользователь не найден
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
     delete:
       tags:
         - USERS
@@ -576,9 +576,9 @@ paths:
         404:
           description: Пользователь не найден
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
 
   /users/me/:
     get:
@@ -598,9 +598,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
       security:
-      - jwt_auth:
-        - read:admin,moderator,user
-        - write:admin,moderator,user
+        - jwt_auth:
+            - read:admin,moderator,user
+            - write:admin,moderator,user
     patch:
       tags:
         - USERS
@@ -627,9 +627,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ValidationError'
       security:
-      - jwt_auth:
-        - read:admin,moderator,user
-        - write:admin,moderator,user
+        - jwt_auth:
+            - read:admin,moderator,user
+            - write:admin,moderator,user
 
   /categories/:
     get:
@@ -640,11 +640,11 @@ paths:
 
         Права доступа: **Доступно без токена**
       parameters:
-      - name: search
-        in: query
-        description: фильтрует по названию категории
-        schema:
-          type: string
+        - name: search
+          in: query
+          description: фильтрует по названию категории
+          schema:
+            type: string
       responses:
         200:
           description: Список категорий с пагинацией
@@ -695,9 +695,9 @@ paths:
         403:
           description: Нет прав доступа
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
   /categories/{slug}/:
     delete:
       tags:
@@ -707,12 +707,12 @@ paths:
 
         Права доступа: **Администратор.**
       parameters:
-      - name: slug
-        in: path
-        required: true
-        description: Slug категории
-        schema:
-          type: string
+        - name: slug
+          in: path
+          required: true
+          description: Slug категории
+          schema:
+            type: string
       responses:
         204:
           description: ''
@@ -723,9 +723,9 @@ paths:
         404:
           description: Категория не найдена
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
 
   /titles/:
     get:
@@ -784,7 +784,7 @@ paths:
         Создать произведение для отзывов.
 
         Права доступа: **Администратор**.
-      parameters: []
+      parameters: [ ]
       requestBody:
         content:
           application/json:
@@ -808,9 +808,9 @@ paths:
         403:
           description: Нет прав доступа
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
   /titles/{titles_id}/:
     parameters:
       - name: titles_id
@@ -863,9 +863,9 @@ paths:
         404:
           description: Объект не найден
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
     delete:
       tags:
         - TITLES
@@ -883,9 +883,9 @@ paths:
         404:
           description: Объект не найден
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
 
   /genres/:
     get:
@@ -896,11 +896,11 @@ paths:
 
         Права доступа: **Доступно без токена**
       parameters:
-      - name: search
-        in: query
-        description: фильтрует по названию жанра
-        schema:
-          type: string
+        - name: search
+          in: query
+          description: фильтрует по названию жанра
+          schema:
+            type: string
       responses:
         200:
           description: Список жанров с пагинацией
@@ -946,9 +946,9 @@ paths:
         403:
           description: Нет прав доступа
       security:
-      - jwt_auth:
-        - read:admin
-        - write:admin
+        - jwt_auth:
+            - read:admin
+            - write:admin
 
   /genres/{slug}/:
     delete:
@@ -959,12 +959,12 @@ paths:
 
         Права доступа: **Администратор**.
       parameters:
-      - name: slug
-        in: path
-        required: true
-        description: Slug жанра
-        schema:
-          type: string
+        - name: slug
+          in: path
+          required: true
+          description: Slug жанра
+          schema:
+            type: string
       responses:
         204:
           description: ''
@@ -975,9 +975,9 @@ paths:
         404:
           description: Жанр не найден
       security:
-      - auth:
-        - read:admin
-        - write:admin
+        - auth:
+            - read:admin
+            - write:admin
 
 components:
   schemas:
@@ -986,8 +986,8 @@ components:
       type: object
       description: Детальная информация о пользователе
       required:
-          - username
-          - email
+        - username
+        - email
       properties:
         first_name:
           type: string
@@ -1083,8 +1083,8 @@ components:
       type: object
       description: Детальная информация отзыва
       required:
-          - text
-          - score
+        - text
+        - score
       properties:
         id:
           type: integer

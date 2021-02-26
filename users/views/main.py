@@ -25,10 +25,11 @@ class AskRegistrationView(APIView):
             email = in_serializer.validated_data['email']
             registration(email)
             status_info = StatusSerializer(
-                    {'status_info': f'Отправлен код на {email}'}
+                {'status_info': f'Отправлен код на {email}'}
             )
         else:
-            status_info = StatusSerializer({'status_info': 'емейл не валидный'})
+            status_info = StatusSerializer(
+                {'status_info': 'емейл не валидный'})
         return Response(status_info.data, status=status.HTTP_200_OK)
 
 

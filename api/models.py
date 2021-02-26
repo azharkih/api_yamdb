@@ -6,13 +6,13 @@ User = get_user_model()
 
 class Category(models.Model):
     name = models.CharField(
-            max_length=100,
-            verbose_name='Произведение',
+        max_length=100,
+        verbose_name='Произведение',
     )
     slug = models.SlugField(
-            max_length=100,
-            unique=True,
-            verbose_name='Слаг произведения',
+        max_length=100,
+        unique=True,
+        verbose_name='Слаг произведения',
     )
 
     class Meta:
@@ -21,13 +21,13 @@ class Category(models.Model):
 
 class Genre(models.Model):
     name = models.CharField(
-            max_length=100,
-            verbose_name='Жанр',
+        max_length=100,
+        verbose_name='Жанр',
     )
     slug = models.SlugField(
-            max_length=100,
-            unique=True,
-            verbose_name='Слаг жанра',
+        max_length=100,
+        unique=True,
+        verbose_name='Слаг жанра',
     )
 
     class Meta:
@@ -36,29 +36,29 @@ class Genre(models.Model):
 
 class Title(models.Model):
     name = models.CharField(
-            verbose_name='Произведение',
-            max_length=100,
+        verbose_name='Произведение',
+        max_length=100,
     )
     year = models.PositiveIntegerField(
-            verbose_name="Год выпуска",
+        verbose_name="Год выпуска",
     )
     description = models.TextField(
-            blank=True,
-            verbose_name='Описание',
+        blank=True,
+        verbose_name='Описание',
     )
     genre = models.ManyToManyField(
-            Genre,
-            blank=True,
-            related_name='titles',
-            verbose_name="Жанр",
+        Genre,
+        blank=True,
+        related_name='titles',
+        verbose_name="Жанр",
     )
     category = models.ForeignKey(
-            Category,
-            on_delete=models.SET_NULL,
-            blank=True,
-            null=True,
-            related_name='titles',
-            verbose_name="Категория",
+        Category,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='titles',
+        verbose_name="Категория",
     )
 
     class Meta:
@@ -67,22 +67,22 @@ class Title(models.Model):
 
 class Review(models.Model):
     author = models.ForeignKey(
-            User,
-            on_delete=models.CASCADE,
-            related_name="reviews",
-            verbose_name='Автор отзыва',
+        User,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+        verbose_name='Автор отзыва',
     )
     title = models.ForeignKey(
-            Title,
-            on_delete=models.CASCADE,
-            related_name="reviews",
-            verbose_name='Заголовок отзыва',
+        Title,
+        on_delete=models.CASCADE,
+        related_name="reviews",
+        verbose_name='Заголовок отзыва',
     )
     score = models.IntegerField(null=True)
     text = models.TextField()
     pub_date = models.DateTimeField(
-            auto_now_add=True,
-            verbose_name='Дата/время отзыва',
+        auto_now_add=True,
+        verbose_name='Дата/время отзыва',
     )
 
     class Meta:
@@ -94,21 +94,21 @@ class Review(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-            User,
-            on_delete=models.CASCADE,
-            related_name='comments',
-            verbose_name='Автор комментария',
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Автор комментария',
     )
     review = models.ForeignKey(
-            Review,
-            on_delete=models.CASCADE,
-            related_name='comments',
-            verbose_name='Комментируемый отзыв',
+        Review,
+        on_delete=models.CASCADE,
+        related_name='comments',
+        verbose_name='Комментируемый отзыв',
     )
     text = models.TextField()
     pub_date = models.DateTimeField(
-            auto_now_add=True,
-            verbose_name='Дата/время комментария',
+        auto_now_add=True,
+        verbose_name='Дата/время комментария',
     )
 
     class Meta:
