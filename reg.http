@@ -17,11 +17,11 @@ content-type: application/json
 
 {
     "email": "gerz13@mail.ru",
-    "confirmation_code": "Nl0%j(4gzN"
+    "confirmation_code": "ES&V=;`{B$"
 }
 
 ###
- @token = {{login.response.body.$.access}}
+ @token = {{auth.response.body.$.access}}
 
 ###
 
