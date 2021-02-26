@@ -6,9 +6,9 @@ from ..models import Review
 
 class ReviewSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-            queryset=User.objects.all(),
-            slug_field='username',
-            default=serializers.CurrentUserDefault())
+        queryset=User.objects.all(),
+        slug_field='username',
+        default=serializers.CurrentUserDefault())
 
     class Meta:
         fields = ['id', 'text', 'author', 'score', 'pub_date']
@@ -24,9 +24,9 @@ class ReviewSerializer(serializers.ModelSerializer):
                                                    title=title).first()
             if similar_review:
                 raise serializers.ValidationError(
-                        'Вы можете оставить только один отзыв')
+                    'Вы можете оставить только один отзыв')
         if score <= 0 or score > 10:
             raise serializers.ValidationError(
-                    'Рейтинг может быть в диапозоне от 1 до 10'
+                'Рейтинг может быть в диапозоне от 1 до 10'
             )
         return data

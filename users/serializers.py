@@ -33,7 +33,7 @@ class TokenSerializer(serializers.Serializer):
 
     email = serializers.EmailField(write_only=True)
     confirmation_code = serializers.CharField(
-            max_length=length, min_length=length, write_only=True)
+        max_length=length, min_length=length, write_only=True)
     token = serializers.CharField(read_only=True)
 
     def validate(self, data):
