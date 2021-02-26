@@ -159,5 +159,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """ Строковое представление модели (отображается в консоли) """
         return self.email
-
-

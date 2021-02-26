@@ -6,7 +6,7 @@ POST {{baseUrl}}/auth/email/
 content-type: application/json
 
 {
-    "email": "gerz13@mail.ru"
+  "email": "gerz13@mail.ru"
 }
 
 ###
@@ -16,8 +16,8 @@ POST {{baseUrl}}/token/
 content-type: application/json
 
 {
-    "email": "gerz13@mail.ru",
-    "confirmation_code": "ES&V=;`{B$"
+  "email": "gerz13@mail.ru",
+  "confirmation_code": "ES&V=;`{B$"
 }
 
 ###
