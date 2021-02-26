@@ -5,8 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from api.permissions.review import IsAuthorOrAdminOrModeratorOrReadOnly
 
-from api.models.review import Review
-from api.models.review import Title
+from api.models import Title
 
 from api.serializers.review import ReviewSerializer
 

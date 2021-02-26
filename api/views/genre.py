@@ -3,7 +3,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import GenericViewSet
 
 from users.permissions import IsAdminOrReadOnly
-from ..models.genre import Genre
+from ..models import Genre
 from ..serializers.genre import GenreSerializer
 
 

@@ -3,7 +3,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import GenericViewSet
 
 from users.permissions import IsAdminOrReadOnly
-from ..models.category import Category
+from ..models import Category
 from ..serializers.category import CategorySerializer
 
 

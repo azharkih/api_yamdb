@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from ..models.review import Review
-from ..models.user import User
+from users.models import User
+from ..models import Review
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -16,11 +16,13 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         title = self.context['view'].kwargs.get('title_id')
-        similar_review = Review.objects.filter(author=data['author'],
-                                               title=title).first()
-        if similar_review:
-            raise serializers.ValidationError(
-                    'Вы можете оставить только один отзыв')
+        author = self.context['request'].user
+        if self.context['request'].method == 'POST':
+            similar_review = Review.objects.filter(author=author,
+                                                   title=title).first()
+            if similar_review:
+                raise serializers.ValidationError(
+                        'Вы можете оставить только один отзыв')
         score = data['score']
         if score <= 0 or score > 10:
             raise serializers.ValidationError(

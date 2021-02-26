@@ -1,14 +1,13 @@
 from rest_framework import serializers
 
-from api.models.comment import Comment
+from api.models import Comment, User
 
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='username',
-        default=serializers.CurrentUserDefault()
-    )
+            queryset=User.objects.all(),
+            slug_field='username',
+            default=serializers.CurrentUserDefault())
     
     class Meta:
         fields = ['id', 'text', 'author', 'pub_date']
