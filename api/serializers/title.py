@@ -1,11 +1,8 @@
-from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 
-from ..models import Category
-from ..models import Genre
-from ..models import Title
-from .genre import GenreSerializer
 from .category import CategorySerializer
+from .genre import GenreSerializer
+from ..models import Category, Genre, Title
 
 
 class TitleSerializerGet(serializers.ModelSerializer):

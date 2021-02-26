@@ -1,16 +1,12 @@
-from rest_framework import mixins
 from rest_framework.filters import SearchFilter
-from rest_framework.viewsets import GenericViewSet
 
 from users.permissions import IsAdminOrReadOnly
+from .base import ListObjectsViewSet
 from ..models import Category
 from ..serializers.category import CategorySerializer
 
 
-class CategoryViewSet(mixins.CreateModelMixin,
-                      mixins.DestroyModelMixin,
-                      mixins.ListModelMixin,
-                      GenericViewSet):
+class CategoryViewSet(ListObjectsViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'
