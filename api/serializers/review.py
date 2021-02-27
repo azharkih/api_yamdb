@@ -17,16 +17,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     def validate(self, data):
         title = self.context['view'].kwargs.get('title_id')
         author = self.context['request'].user
-        score = data['score']
 
         if self.context['request'].method == 'POST':
             similar_review = Review.objects.filter(author=author,
-                                                   title=title).first()
+                                                   title=title).exists()
             if similar_review:
                 raise serializers.ValidationError(
                     'Вы можете оставить только один отзыв')
-        if score <= 0 or score > 10:
-            raise serializers.ValidationError(
-                'Рейтинг может быть в диапозоне от 1 до 10'
-            )
         return data

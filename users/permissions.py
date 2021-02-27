@@ -16,8 +16,7 @@ class IsUser(permissions.BasePermission):
         """Определить и вернуть право на поступивший запрос."""
         if bool(request.user and request.user.is_authenticated):
             return request.user.role == User.Role.USER
-        else:
-            return False
+        return False
 
 
 class IsModerator(permissions.BasePermission):
@@ -33,8 +32,7 @@ class IsModerator(permissions.BasePermission):
         """Определить и вернуть право на поступивший запрос."""
         if bool(request.user and request.user.is_authenticated):
             return request.user.role == User.Role.MODERATOR
-        else:
-            return False
+        return False
 
 
 class IsAdmin(permissions.BasePermission):
@@ -51,8 +49,7 @@ class IsAdmin(permissions.BasePermission):
         if bool(request.user and request.user.is_authenticated):
             return (request.user.role == User.Role.ADMIN
                     or request.user.is_superuser)
-        else:
-            return False
+        return False
 
 
 class IsOwner(permissions.BasePermission):

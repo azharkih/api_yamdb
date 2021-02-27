@@ -1,5 +1,6 @@
 import random
 import string
+import uuid
 
 from django.core.mail import send_mail
 
@@ -38,8 +39,8 @@ def save_ask_registration(email, confirmation_code):
 
 
 def registration(email):
-    """ Выполнить обработку запроса на резистрацию."""
+    """ Выполнить обработку запроса на регистрацию."""
 
-    confirmation_code = generate_confirmation_code()
+    confirmation_code = str(uuid.uuid4())
     send_confirmation_code(email, confirmation_code)
     save_ask_registration(email, confirmation_code)

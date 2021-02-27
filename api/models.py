@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from api.validators import score_validator, year_validator
+
 User = get_user_model()
 
 
@@ -8,6 +10,7 @@ class Category(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name='Произведение',
+        db_index=True,
     )
     slug = models.SlugField(
         max_length=100,
@@ -23,6 +26,7 @@ class Genre(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name='Жанр',
+        db_index=True,
     )
     slug = models.SlugField(
         max_length=100,
@@ -38,9 +42,12 @@ class Title(models.Model):
     name = models.CharField(
         verbose_name='Произведение',
         max_length=100,
+        db_index=True,
     )
     year = models.PositiveIntegerField(
-        verbose_name="Год выпуска",
+        verbose_name='Год выпуска',
+        validators=[year_validator],
+        db_index=True,
     )
     description = models.TextField(
         blank=True,
@@ -50,7 +57,8 @@ class Title(models.Model):
         Genre,
         blank=True,
         related_name='titles',
-        verbose_name="Жанр",
+        verbose_name='Жанр',
+        db_index=True,
     )
     category = models.ForeignKey(
         Category,
@@ -58,7 +66,8 @@ class Title(models.Model):
         blank=True,
         null=True,
         related_name='titles',
-        verbose_name="Категория",
+        verbose_name='Категория',
+        db_index=True,
     )
 
     class Meta:
@@ -69,16 +78,18 @@ class Review(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="reviews",
+        related_name='reviews',
         verbose_name='Автор отзыва',
     )
     title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
-        related_name="reviews",
+        related_name='reviews',
         verbose_name='Заголовок отзыва',
     )
-    score = models.IntegerField(null=True)
+    score = models.IntegerField(
+        validators=[score_validator],
+    )
     text = models.TextField()
     pub_date = models.DateTimeField(
         auto_now_add=True,
@@ -86,7 +97,7 @@ class Review(models.Model):
     )
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('pub_date',)
 
     def __str__(self) -> str:
         return f'{self.author.username} - {self.text}'
