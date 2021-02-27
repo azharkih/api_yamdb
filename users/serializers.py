@@ -37,10 +37,10 @@ class TokenSerializer(serializers.Serializer):
     token = serializers.CharField(read_only=True)
 
     def validate(self, data):
-        if not AskRegistration.objects.get(
+        if not AskRegistration.objects.filter(
             email=data['email'],
             confirmation_code=data['confirmation_code']
-        ):
+        ).exists():
             raise serializers.ValidationError('Неверный код подтверждения')
         return data
 

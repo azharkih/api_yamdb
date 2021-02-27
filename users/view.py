@@ -1,14 +1,14 @@
 from rest_framework import status, viewsets
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from users.models import User
+from users.permissions import IsAdmin, IsOwner
+from users.registration import registration
 from users.serializers import (
     AskRegistrationSerializer, StatusSerializer, TokenSerializer,
     UserSerializer)
-from .registration import registration
-from ..models import User
-from ..permissions import IsAdmin, IsOwner
 
 
 class AskRegistrationView(APIView):
@@ -43,10 +43,9 @@ class TokenView(APIView):
 
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -64,19 +63,18 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = 'username'
     permission_classes = [IsAdmin]
 
+    # def update(self):
 
-class OwnUserViewSet(RetrieveUpdateAPIView):
-    """
-    Класс OwnUserViewSet используется для обработки api-запросов на операции
-    обновления данных своего пользователя.
-
-    Родительский класс -- RetrieveUpdateAPIView.
-    Переопределенные атрибуты -- serializer_class, permission_classes.
-    Переопределенные методы -- get_object.
-    """
-
-    serializer_class = UserSerializer
-    permission_classes = [IsOwner]
-
-    def get_object(self):
-        return self.request.user
+    @action(detail=False, methods=['get', 'patch'],
+            permission_classes=[IsOwner])
+    def me(self, request):
+        if self.request.method == 'PATCH':
+            instance = self.request.user
+            serializer = self.get_serializer(instance, data=request.data,
+                                             partial=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            self.perform_update(serializer)
+        serializer = self.get_serializer(self.request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
