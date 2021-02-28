@@ -44,6 +44,8 @@ class TokenView(APIView):
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -69,6 +71,7 @@ class UserViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(instance, data=request.data,
                                              partial=True)
             serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
         serializer = self.get_serializer(self.request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
