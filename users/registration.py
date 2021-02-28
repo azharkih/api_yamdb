@@ -1,24 +1,9 @@
-import random
-import string
 import uuid
 
 from django.core.mail import send_mail
 
 from api_yamdb import settings
 from users.models import AskRegistration
-
-
-def generate_confirmation_code():
-    """ Сгенерировать и вернуть код подтверждения.
-
-    Длина кода подтверждения задается в настройках проекта в константе
-    LENGTH_CONFIRMATION_CODE.
-    """
-
-    length = settings.LENGTH_CONFIRMATION_CODE
-    chars = string.punctuation + string.ascii_letters + string.digits
-    confirmation_code = ''.join(random.choice(chars) for _ in range(length))
-    return confirmation_code
 
 
 def send_confirmation_code(email, confirmation_code):

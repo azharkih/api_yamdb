@@ -43,9 +43,7 @@ class TokenView(APIView):
 
     def post(self, request):
         serializer = TokenSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer.is_valid(raise_exception=True)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -63,8 +61,6 @@ class UserViewSet(viewsets.ModelViewSet):
     lookup_field = 'username'
     permission_classes = [IsAdmin]
 
-    # def update(self):
-
     @action(detail=False, methods=['get', 'patch'],
             permission_classes=[IsOwner])
     def me(self, request):
@@ -72,9 +68,7 @@ class UserViewSet(viewsets.ModelViewSet):
             instance = self.request.user
             serializer = self.get_serializer(instance, data=request.data,
                                              partial=True)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)
         serializer = self.get_serializer(self.request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
